@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../components/search_bar.dart';
-
 class NewsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

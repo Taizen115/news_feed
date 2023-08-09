@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:news_feed/view/components/search_bar.dart' as r;
+
 class NewsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class NewsListPage extends StatelessWidget {
           child: Column(
             children: [
               //TODO 検索ワード
-              SearchBar(
+              r.SearchBar(
                 onSearch: (keyword) => getKeywordNews(context, keyword),
               ),
               //TODO カテゴリー選択Chips

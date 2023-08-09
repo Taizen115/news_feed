@@ -9,19 +9,19 @@ class CategoryChips extends StatefulWidget {
 class _CategoryChipsState extends State<CategoryChips> {
   var value = 0;
 
-}
-
-@override
-Widget build(BuildContext context) {
-  return Wrap(
-      children: List<Widget>.generate(categories.length, (int index)
-  {
-    ChoiceChip(
-      label: Text(categories[index].nameJp),
-      selected: value == index,
-      onSelected: (bool isSelected) {
-
-      },
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: List<Widget>.generate(
+        categories.length,
+        (int index) {
+         return ChoiceChip(
+            label: Text(categories[index].nameJp),
+            selected: value == index,
+            onSelected: (bool isSelected) {},
+          );
+        },
+      ),
     );
-  };
+  }
 }

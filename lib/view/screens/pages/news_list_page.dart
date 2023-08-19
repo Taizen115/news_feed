@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:news_feed/data/category_info.dart';
+import 'package:news_feed/data/search_type.dart';
 
 import 'package:news_feed/view/components/search_bar.dart' as r;
+import 'package:news_feed/viewmodels/news_list_viewmodel.dart';
+import 'package:provider/provider.dart';
+
+import '../../components/category_chips.dart';
 
 class NewsListPage extends StatelessWidget {
   @override
@@ -20,8 +26,10 @@ class NewsListPage extends StatelessWidget {
               r.SearchBar(
                 onSearch: (keyword) => getKeywordNews(context, keyword),
               ),
-              //TODO カテゴリー選択Chips
-              //CategoryChips(),
+              CategoryChips(
+                onCategorySelected: (category) =>
+                    getCategoryNews(context, category),
+              ),
               //TODO 記事表示
               Expanded(
                 child: Center(
@@ -36,12 +44,35 @@ class NewsListPage extends StatelessWidget {
   }
 
   //TODO 記事更新処理
-  onRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) async {
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
+    await viewModel.getNews(
+      searchType: viewModel.searchType,
+      keyword: viewModel.keyword,
+      category: viewModel.category,
+    );
+
     print("NewsListPage.onRefresh");
   }
 
   //TODO キーワード記事取得処理
-  getKeywordNews(BuildContext context, keyword) {
+  Future<void> getKeywordNews(BuildContext context, keyword) async {
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
+    await viewModel.getNews(
+      searchType: SearchType.KEYWORD,
+      keyword: keyword,
+      category: categories[0],
+    );
     print("NewsListPage.getKeywordNews");
+  }
+
+  //TODO カテゴリー記事取得処理
+  Future<void> getCategoryNews(BuildContext context, Category category) async {
+    print("NewsListPage.getCategoryNews / category: ${category.nameJp}");
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
+    await viewModel.getNews(
+      searchType: SearchType.CATEGORY,
+      category: category,
+    );
   }
 }

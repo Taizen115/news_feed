@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_feed/view/screens/pages/head_line_page.dart';
-import 'package:news_feed/view/screens/pages/news_list_page.dart';
 
 class AboutUsPage extends StatefulWidget {
   @override

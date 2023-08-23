@@ -14,7 +14,7 @@ class NewsRepository {
     String? keyword,
     Category? category,
   }) async {
-    List<Article> results = [];
+    List<Article> result = [];
 
     http.Response? response;
 
@@ -37,12 +37,12 @@ class NewsRepository {
 
     if (response.statusCode == 200) {
       final responseBody = response.body;
-      results = News.fromJson(jsonDecode(responseBody)).articles;
+      result = News.fromJson(jsonDecode(responseBody)).articles;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load album');
     }
-    return results;
+    return result;
   }
 }

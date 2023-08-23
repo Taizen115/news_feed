@@ -14,9 +14,9 @@ class NewsListPage extends StatelessWidget {
     final viewModel = context.read<NewsListViewModel>();
 
     if (!viewModel.isLoading && viewModel.articles.isEmpty) {
-      Future(() => viewModel.getNews(
-          searchType: SearchType.CATEGORY, category: categories[0]));
-
+      Future(() =>
+          viewModel.getNews(
+              searchType: SearchType.CATEGORY, category: categories[0]));
     }
 
     return SafeArea(
@@ -40,8 +40,18 @@ class NewsListPage extends StatelessWidget {
               ),
               //TODO 記事表示
               Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(),
+                child: Consumer<NewsListViewModel>(
+                  builder: (context, model, child) {
+                    return model.isLoading
+                        ? Center(child: CircularProgressIndicator(),)
+                        : ListView.builder(
+                        itemCount: model.articles.length,
+                        itemBuilder: (context, int position) => ListTile(
+                    title: Text (model.articles[position].title ?? ""),
+                    subtitle: Text (model.articles[position].description ?? ""),
+                    ),
+                    );
+                  },
                 ),
               ),
             ],

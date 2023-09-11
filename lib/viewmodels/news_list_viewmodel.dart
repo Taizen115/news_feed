@@ -38,7 +38,7 @@ class NewsListViewModel extends ChangeNotifier {
     notifyListeners();
 
     print(
-        "[ViewModel] searchType: $searchType / keyword: $keyword / category: ${category?.nameJp}");
+        "[ViewModel] searchType: $_searchType / keyword: $_keyword / category: ${_category?.nameJp}");
 
     //TODO
     _articles = await _repository.getNews(

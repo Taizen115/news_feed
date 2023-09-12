@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:news_feed/data/category_info.dart';
 import 'package:news_feed/data/search_type.dart';
-import 'package:news_feed/models/model.db/database.dart';
 import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/util/extensions.dart';
-
 import '../main.dart';
+import 'package:news_feed/models/model.db/dao.dart';
+
 
 class NewsRepository {
   static const BASE_URL = "https://newsapi.org/v2/top-headlines?country=jp";
@@ -18,8 +16,7 @@ class NewsRepository {
     String? keyword,
     Category? category,
   }) async {
-
-    List<Article> result = [];
+    List<Article>? result = [];
 
     http.Response? response;
 
@@ -31,7 +28,7 @@ class NewsRepository {
         break;
       case SearchType.KEYWORD:
         final requestUrl =
-        Uri.parse(BASE_URL + "&q=&keyword&pageSize=30&apiKey=$API_KEY");
+            Uri.parse(BASE_URL + "&q=&keyword&pageSize=30&apiKey=$API_KEY");
         response = await http.get(requestUrl);
         break;
       case SearchType.CATEGORY:
@@ -46,9 +43,7 @@ class NewsRepository {
       // result = News
       //     .fromJson(jsonDecode(responseBody))
       //     .articles;
-      result = await insertAndReadFromDB(responseBody);
-
-
+      result = (await insertAndReadFromDB(responseBody)).cast<Article>();
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -57,16 +52,14 @@ class NewsRepository {
     return result;
   }
 
-   Future<List<Article>> insertAndReadFromDB (responseBody) async{
+  Future<List<Article>> insertAndReadFromDB(responseBody) async {
     final dao = myDatabase.newsDao;
     final articles = News.fromJson(responseBody).articles;
 
     //TODO Webから取得した記事リスト（Dartのモデルクラス:Article）をDBのテーブルクラス（articles）に変換して、DB登録
-    final articleRecords = await dao.insertAndReadNewFromDB(articles.toArticleRecords(articles));
+    final articleRecords = await dao.insertAndReadNewsFromDB(articles.toArticleRecords(articles));
 
     //TODO DBから取得したデータをモデルクラスに再変換して返す
     return articleRecords.toArticle(articleRecords);
   }
-
-  }
-
+}

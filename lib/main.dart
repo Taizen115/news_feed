@@ -6,9 +6,6 @@ import 'package:news_feed/viewmodels/head_line_viewmodel.dart';
 import 'package:news_feed/viewmodels/news_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-import 'models/model.db/database.dart';
-
-
 late MyDatabase myDatabase;
 
 void main() {

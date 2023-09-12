@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../data/category_info.dart';
 import '../data/search_type.dart';
 import '../models/model/news_model.dart';
 import '../repository/news_repository.dart';

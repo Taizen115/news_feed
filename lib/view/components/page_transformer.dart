@@ -7,7 +7,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 /// A function that builds a [PageView] lazily.
 typedef PageView PageViewBuilder(

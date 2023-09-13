@@ -4,8 +4,8 @@ import '../models/model/news_model.dart';
 
 //DARTのモデルクラス➡DBのモデルクラス
 extension ConvertToArticleRecord on List<Article> {
-  List toArticleRecords(List<Article> articles) {
-    var articleRecords = [];
+  List<ArticleRecord> toArticleRecords(List<Article> articles) {
+    var articleRecords = <ArticleRecord>[];
     articles.forEach((article) {
       articleRecords.add(ArticleRecord(
           title: article.title ?? "",
@@ -21,11 +21,10 @@ extension ConvertToArticleRecord on List<Article> {
 
 //DBのモデルクラス➡DARTのモデルクラス
 extension ConvertToArticle on List<ArticleRecord> {
-  List toArticle(List<ArticleRecord> articleRecords) {
-    var articles = [];
+  List<Article> toArticles(List<ArticleRecord> articleRecords) {
+    var articles = <Article>[];
     articleRecords.forEach((articleRecord) {
-      articles.add(
-          Article(
+      articles.add(Article(
           title: articleRecord.title,
           description: articleRecord.description,
           url: articleRecord.url,

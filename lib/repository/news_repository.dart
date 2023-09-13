@@ -4,8 +4,6 @@ import 'package:news_feed/data/search_type.dart';
 import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/util/extensions.dart';
 import '../main.dart';
-import 'package:news_feed/models/model.db/dao.dart';
-
 
 class NewsRepository {
   static const BASE_URL = "https://newsapi.org/v2/top-headlines?country=jp";
@@ -43,7 +41,7 @@ class NewsRepository {
       // result = News
       //     .fromJson(jsonDecode(responseBody))
       //     .articles;
-      result = (await insertAndReadFromDB(responseBody)).cast<Article>();
+      result = await insertAndReadFromDB(responseBody);
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -57,9 +55,10 @@ class NewsRepository {
     final articles = News.fromJson(responseBody).articles;
 
     //TODO Webから取得した記事リスト（Dartのモデルクラス:Article）をDBのテーブルクラス（articles）に変換して、DB登録
-    final articleRecords = await dao.insertAndReadNewsFromDB(articles.toArticleRecords(articles));
+    final articleRecords =
+        await dao.insertAndReadNewsFromDB(articles.toArticleRecords(articles));
 
-    //TODO DBから取得したデータをモデルクラスに再変換して返す
-    return articleRecords.toArticle(articleRecords);
+    //TODO DBから取得したデータをモデルクラス(Article)に再変換して返す
+    return articleRecords.toArticles(articleRecords);
   }
 }
